@@ -223,15 +223,80 @@ def linguagem(linguagem):
     return titulo, data_mergulho, check_in, nome, cpf, data_nascimento, email, telefone, formato_data, endereco, botao, texto, titulo2, nome_emergencia, telefone_emergencia, botao2, titulo3, subtitulo, gravida, cardiaca, pulmonar, enjoo, coluna, ouvido, remedio, asma, epilepsia, dd, diabetes, hemorragia, cirurgia, opcoes, opcoes1, qual_cirurgia, tempo_cirurgia, viajar, ciente1, ciente2, texto_final, pais, estado, enviar, importante, enviado, taxa, localizaçao
 
 
+# def create_termo_clientes():
+#     mydb.connect()
+#     cursor.execute("""
+#             create table termo_clientes(
+#                 id int not null auto_increment,
+#                 data_reserva date,
+#                 id_cliente int,
+#                 nome varchar(40),
+#                 telefone varchar(20),
+#                 cpf varchar(20),
+#                 data_nascimento date,
+#                 email varchar(20),
+#                 nome_emergencia varchar(20),
+#                 telefone_emergencia varchar(20),
+#                 roupa varchar(20),
+#                 cidade varchar(20),
+#                 estado varchar(20),
+#                 pais varchar(20),
+#                 primary key (id),
+#                 foreign key (id_cliente) references cliente(id));
+#             """)
+#     mydb.close()
+
+
+# def create_termo_medico():
+#     mydb.connect()
+#     cursor.execute("""
+#         create table termo_medico (
+#             id int not null auto_increment,
+#             id_cliente int,
+#             id_termo_cliente int,
+#             gravida varchar(3),
+#             remedio varchar(3),
+#             doenca_cardioaca varchar(3),
+#             asma varchar(3),
+#             doenca_pulmonar varchar(3),
+#             epilepsia varchar(3),
+#             enjoo varchar(3),
+#             dd varchar(3),
+#             coluna varchar(3),
+#             diabetes varchar(3),
+#             ouvido varchar(3),
+#             hemorragia varchar(3),
+#             primary key (id),
+#             foreign key (id_cliente) references cliente(id),
+#             foreign key (id_termo_cliente) references termo_clientes(id));
+#     """)
+#     mydb.close()
+
+
+def insert_termo_clientes(data_reserva, id_cliente, nome, telefone, cpf, data_nascimento, email, nome_emergencia, telefone_emergencia, estado, pais):
+    mydb.connect()
+
+    cursor.execute("INSERT INTO termo_clientes (data_reserva, id_cliente, nome, telefone, cpf, data_nascimento, email, nome_emergencia, telefone_emergencia, estado, pais) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ", (data_reserva, id_cliente, nome, telefone, cpf, data_nascimento, email, nome_emergencia, telefone_emergencia, estado, pais))
+    id_termo_clientes = cursor.lastrowid
+    mydb.close()
+
+    return id_termo_clientes
+
+
 def cadastra_cliente(nome, data, telefone, cpf, estado):
+    mydb.connect()
     cursor.execute(
-        f"SELECT r.data, c.nome, c.id FROM reserva AS r INNER JOIN cliente AS c ON r.id_cliente = c.id WHERE c.nome LIKE '{nome}%' and r.data = '{data}'")
+        f"SELECT c.id FROM reserva AS r INNER JOIN cliente AS c ON r.id_cliente = c.id WHERE c.nome LIKE '{nome}%' and r.data = '{data}'")
     dados = cursor.fetchone()
+    id_cliente = ''
 
     st.write(dados)
     if dados is not None:
-        id = dados[2]
+        id_cliente = dados
+        st.write(id_cliente)
         cursor.execute(
-            f"UPDATE cliente SET nome = '{nome}', telefone = '{telefone}', cpf = '{cpf}', estado = '{estado}' WHERE id = {id}")
+            f"UPDATE cliente SET nome = '{nome}', telefone = '{telefone}', cpf = '{cpf}', estado = '{estado}' WHERE id = {id_cliente}")
 
         cursor.execute(f"UPDATE reserva set nome_cliente = '{nome}' WHERE id = {id} and data = '{data}'")
+
+    return id_cliente
