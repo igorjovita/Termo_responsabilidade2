@@ -298,6 +298,6 @@ def cadastra_cliente(nome, data, telefone, cpf, estado):
         cursor.execute(
             f"UPDATE cliente SET nome = '{nome}', telefone = '{telefone}', cpf = '{cpf}', estado = '{estado}' WHERE id = {id_cliente}")
 
-        cursor.execute(f"UPDATE reserva set nome_cliente = '{nome}' WHERE id = {id} and data = '{data}'")
+        cursor.execute(f"UPDATE reserva set nome_cliente = '{nome}' WHERE id = {id_cliente} and data = '{data}'")
 
     return id_cliente
