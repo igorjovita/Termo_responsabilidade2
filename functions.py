@@ -287,12 +287,12 @@ def cadastra_cliente(nome, data, telefone, cpf, estado):
     mydb.connect()
     cursor.execute(
         f"SELECT c.id FROM reserva AS r INNER JOIN cliente AS c ON r.id_cliente = c.id WHERE c.nome LIKE '{nome}%' and r.data = '{data}'")
-    dados = cursor.fetchone()[0]
+    dados = cursor.fetchone()
     id_cliente = None
 
     st.write(dados)
     if dados is not None:
-        id_cliente = dados
+        id_cliente = dados[0]
         st.write(id_cliente)
         cursor.execute(
             f"UPDATE cliente SET nome = '{nome}', telefone = '{telefone}', cpf = '{cpf}', estado = '{estado}' WHERE id = {id_cliente}")
