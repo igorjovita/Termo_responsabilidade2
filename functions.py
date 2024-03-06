@@ -296,7 +296,7 @@ def cadastra_cliente(nome, data, telefone, cpf, estado):
         id_cliente = dados[0]
         st.write(id_cliente)
         cursor.execute(
-            f"UPDATE cliente SET nome = '{nome}', telefone = '{telefone}', cpf = '{cpf}', estado = '{estado}' WHERE id = {id_cliente}")
+            f"UPDATE cliente SET nome = '{nome}', telefone = {telefone}, cpf = {cpf}, estado = '{estado}' WHERE id = {id_cliente}")
 
         cursor.execute(f"UPDATE reserva set nome_cliente = '{nome}' WHERE id = {id_cliente} and data = '{data}'")
 
