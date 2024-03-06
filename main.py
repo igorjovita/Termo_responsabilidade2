@@ -111,11 +111,12 @@ if st.session_state.count == 2:
         with col2:
             if st.form_submit_button(botao2):
                 st.write(st.session_state.dados_cliente)
-                # input_data_mergulho, input_nome, input_data_nascimento, input_cpf, input_telefone, input_email = st.session_state.dados_cliente
-                # st.session_state.id_clientes = cadastra_cliente(input_nome, input_data_mergulho, input_telefone, input_cpf, input_estado)
-                # st.session_state.id_termo_clientes = insert_termo_clientes(input_data_mergulho, st.session_state.id_cliente, input_nome, input_telefone, input_cpf, input_data_nascimento, input_email, input_nome_emergencia, input_telefone_emergencia, input_estado, input_pais)
-                # st.session_state.count += 1
-                # st.rerun()
+                for cliente in st.session_state.dados_cliente:
+                    input_data_mergulho, input_nome, input_data_nascimento, input_cpf, input_telefone, input_email = cliente
+                st.session_state.id_clientes = cadastra_cliente(input_nome, input_data_mergulho, input_telefone, input_cpf, input_estado)
+                st.session_state.id_termo_clientes = insert_termo_clientes(input_data_mergulho, st.session_state.id_cliente, input_nome, input_telefone, input_cpf, input_data_nascimento, input_email, input_nome_emergencia, input_telefone_emergencia, input_estado, input_pais)
+                st.session_state.count += 1
+                st.rerun()
 
 
 
