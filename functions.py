@@ -276,7 +276,7 @@ def linguagem(linguagem):
 def insert_termo_clientes(data_reserva, id_cliente, nome, telefone, cpf, data_nascimento, email, nome_emergencia, telefone_emergencia, estado, pais):
     mydb.connect()
 
-    cursor.execute("INSERT INTO termo_clientes (data_reserva, id_cliente, nome, telefone, cpf, data_nascimento, email, nome_emergencia, telefone_emergencia, estado, pais) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ", (data_reserva, id_cliente, nome, telefone, cpf, data_nascimento, email, nome_emergencia, telefone_emergencia, estado, pais))
+    cursor.execute("INSERT INTO termo_clientes (data_reserva, id_cliente, nome, telefone, cpf, data_nascimento, email, nome_emergencia, telefone_emergencia, estado, pais) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ", (data_reserva, id_cliente, nome, telefone, cpf, data_nascimento, email, nome_emergencia, telefone_emergencia, estado, pais))
     id_termo_clientes = cursor.lastrowid
     mydb.close()
 
