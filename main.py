@@ -189,7 +189,7 @@ if st.session_state.count == 5:
         if st.button(enviar):
             for dado in st.session_state.termo_medico:
                 gravida, remedio, cardiaca, asma, pulmonar, epilepsia, enjoo, dd, coluna, diabetes, ouvido, hemorragia = dado
-            id_cliente = st.session_state.id_cliente
+            id_cliente = st.session_state.id_clientes
             id_termo_cliente = st.session_state.id_termo_clientes
             insert_termo_medico(id_cliente, id_termo_cliente, gravida, remedio, cardiaca, asma, pulmonar, epilepsia, enjoo, dd, coluna, diabetes, ouvido, hemorragia, input_cirurgia, nome_cirurgia, input_tempo_cirurgia, viagem, menor, bebida)
             st.session_state.count += 1
