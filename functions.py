@@ -294,7 +294,11 @@ def cadastra_cliente(nome, data, telefone, cpf, estado):
     st.write(dados)
     if dados is not None:
         id_cliente = dados[0]
-        st.write(id_cliente)
+        st.write(f'id cliente - {id_cliente}')
+        st.write(nome)
+        st.wirte(telefone)
+        st.write(cpf)
+        st.write(estado)
         cursor.execute(
             "UPDATE cliente SET nome = %s, telefone = %s, cpf = %s, estado = %s WHERE id = %s",
             (nome, telefone, cpf, estado, id_cliente)
