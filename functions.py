@@ -275,13 +275,17 @@ def linguagem(linguagem):
 #     mydb.close()
 
 
-def insert_termo_clientes(data_reserva, id_cliente, nome, telefone, cpf, data_nascimento, email, nome_emergencia, telefone_emergencia, estado, pais):
+def insert_termo_clientes(data_reserva, id_cliente, nome, telefone, cpf, data_nascimento, email, nome_emergencia,
+                          telefone_emergencia, estado, pais):
     mydb.connect()
     id_cliente = str(id_cliente).translate(str.maketrans('', '', chars))
 
     st.write(f'id_cliente termo clientes - {id_cliente}')
 
-    cursor.execute("INSERT INTO termo_clientes (data_reserva, id_cliente, nome, telefone, cpf, data_nascimento, email, nome_emergencia, telefone_emergencia, estado, pais) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ", (data_reserva, id_cliente, nome, telefone, cpf, data_nascimento, email, nome_emergencia, telefone_emergencia, estado, pais))
+    cursor.execute(
+        "INSERT INTO termo_clientes (data_reserva, id_cliente, nome, telefone, cpf, data_nascimento, email, nome_emergencia, telefone_emergencia, estado, pais) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ",
+        (data_reserva, id_cliente, nome, telefone, cpf, data_nascimento, email, nome_emergencia, telefone_emergencia,
+         estado, pais))
     id_termo_clientes = cursor.lastrowid
     mydb.close()
 
@@ -296,7 +300,6 @@ def cadastra_cliente(nome, data, telefone, cpf, estado):
     dados = cursor.fetchone()
     id_cliente = None
 
-    st.write(dados)
     if dados is not None:
         id_cliente = dados[0]
         st.write(f'id cliente - {id_cliente}')
