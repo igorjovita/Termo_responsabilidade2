@@ -1,5 +1,5 @@
 import streamlit as st
-from functions import linguagem, cadastra_cliente, insert_termo_clientes
+from functions import linguagem, cadastra_cliente, insert_termo_clientes, insert_termo_medico
 
 st.write('''<style>
 
