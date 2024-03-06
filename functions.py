@@ -279,6 +279,8 @@ def insert_termo_clientes(data_reserva, id_cliente, nome, telefone, cpf, data_na
     mydb.connect()
     id_cliente = str(id_cliente).translate(str.maketrans('', '', chars))
 
+    st.write(f'id_cliente termo clientes - {id_cliente}')
+
     cursor.execute("INSERT INTO termo_clientes (data_reserva, id_cliente, nome, telefone, cpf, data_nascimento, email, nome_emergencia, telefone_emergencia, estado, pais) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ", (data_reserva, id_cliente, nome, telefone, cpf, data_nascimento, email, nome_emergencia, telefone_emergencia, estado, pais))
     id_termo_clientes = cursor.lastrowid
     mydb.close()
