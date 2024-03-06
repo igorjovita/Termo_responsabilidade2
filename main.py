@@ -56,6 +56,9 @@ if 'id_cliente' not in st.session_state:
 if 'id_termo_clientes' not in st.session_state:
     st.session_state.id_termo_clientes = ''
 
+if 'dados_cliente' not in st.session_state:
+    st.session_state.dados_cliente = []
+
 st.subheader('Termo de Responsabilidade')
 escolha_idioma = st.selectbox(" Seleccionar Idioma / Select Language", ["Português", "English", "Español"], index=None)
 
@@ -82,9 +85,11 @@ if st.session_state.count == 1:
         col1, col2 = st.columns(2)
 
         with col2:
-            if st.form_submit_button(botao2):
-                st.session_state.count += 1
-                st.rerun()
+            if input_nome == '' or input_data_nascimento is None or input_cpf == '' or input_telefone == '' or input_email == '':
+                st.error('Preencha todos os Campos')
+            st.session_state.dados_cliente.append((input_data_mergulho, input_nome, input_data_nascimento, input_cpf, input_telefone, input_email))
+            st.session_state.count += 1
+            st.rerun()
 if st.session_state.count == 2:
 
     with st.form('Pagina2'):
@@ -101,13 +106,11 @@ if st.session_state.count == 2:
 
         col1, col2 = st.columns(2)
 
-        with col1:
-            if st.form_submit_button(botao):
-                st.session_state.count -= 1
 
         with col2:
+            input_data_mergulho, input_nome, input_data_nascimento, input_cpf, input_telefone, input_email = st.session_state.dados_cliente
             st.session_state.id_clientes = cadastra_cliente(input_nome, input_data_mergulho, input_telefone, input_cpf, input_estado)
-            st.session_state.id_termo_clientes = insert_termo_clientes(input_data_mergulho, id_cliente, input_nome, input_telefone, input_cpf, input_data_nascimento, input_email, input_nome_emergencia, input_telefone_emergencia, input_estado, input_pais)
+            st.session_state.id_termo_clientes = insert_termo_clientes(input_data_mergulho, st.session_state.id_cliente, input_nome, input_telefone, input_cpf, input_data_nascimento, input_email, input_nome_emergencia, input_telefone_emergencia, input_estado, input_pais)
             st.session_state.count += 1
             st.rerun()
 
@@ -140,7 +143,7 @@ if st.session_state.count == 4:
             radio_coluna = st.radio(label=coluna, options=opcoes, horizontal=True, index=None)
             radio_ouvido = st.radio(label=ouvido, options=opcoes, horizontal=True,
                                     index=None)
-           
+
         with colun2:
             radio_remedio = st.radio(label=remedio, options=opcoes, horizontal=True, index=None)
             radio_asma = st.radio(label=asma, options=opcoes, horizontal=True,
