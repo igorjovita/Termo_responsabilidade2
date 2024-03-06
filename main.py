@@ -66,38 +66,44 @@ if st.session_state.count == 1:
     with st.form('Parte 1'):
         st.subheader(titulo)
         st.write(st.session_state.count)
+        input_data_mergulho = st.date_input(data_mergulho, format=formato_data)
+        btn_check_in = st.text_input('Horario', value=check_in, disabled=True)
+        input_nome = st.text_input(nome)
+        input_data_nascimento = st.date_input(data_nascimento, format=formato_data, value=None)
+        input_cpf = st.text_input(cpf)
+        input_telefone = st.text_input(telefone)
+        input_email = st.text_input(email)
+        if st.form_submit_button(botao2):
+            cadastra_cliente(input_nome, input_data_mergulho, input_telefone, input_cpf, input_estado)
+            st.session_state.count += 1
+            st.rerun()
+if st.session_state.count == 2:
+
+    with st.form('Pagina2'):
+        if escolha_idioma == 'Português':
+            input_estado = st.selectbox(estado, estados, index=None)
+            pais = st.selectbox(pais, paises, index=23)
+        else:
+            input_estado = st.text_input(estado)
+            pais = st.selectbox(pais, paises, index=None)
+
+        endereco = st.text_input(endereco)
+        input_nome_emergencia = st.text_input(nome_emergencia)
+        input_telefone_emergencia = st.text_input(telefone_emergencia)
+
         col1, col2 = st.columns(2)
 
         with col1:
-            input_data_mergulho = st.date_input(data_mergulho)
-            input_nome = st.text_input(nome)
-            input_data_nascimento = st.date_input(data_nascimento, format=formato_data)
-            input_email = st.text_input(email)
-            if escolha_idioma == 'Português':
-                input_estado = st.selectbox(estado, estados, index=None)
-            else:
-                input_estado = st.text_input(estado)
-            input_nome_emergencia = st.text_input(nome_emergencia)
             if st.form_submit_button(botao):
                 st.session_state.count -= 1
 
         with col2:
-            btn_check_in = st.text_input('Horario', value=check_in, disabled=True)
-            input_cpf = st.text_input(cpf)
-            input_telefone = st.text_input(telefone)
-            if escolha_idioma == 'Português':
-                pais = st.selectbox(pais, paises, index=23)
-            else:
-                pais = st.selectbox(pais, paises, index=None)
-            endereco = st.text_input(endereco)
-            input_telefone_emergencia = st.text_input(telefone_emergencia)
+            st.session_state.count += 1
+            st.rerun()
 
-            if st.form_submit_button(botao2):
-                cadastra_cliente(input_nome, input_data_mergulho, input_telefone, input_cpf, input_estado)
-                st.session_state.count += 1
-                st.rerun()
 
-if st.session_state.count == 2:
+
+if st.session_state.count == 3:
     with st.form('Pagina2'):
         st.write(st.session_state.count)
         st.subheader(titulo2)
@@ -110,7 +116,7 @@ if st.session_state.count == 2:
                 st.session_state.count += 1
                 st.rerun()
 st.write('---')
-if st.session_state.count == 3:
+if st.session_state.count == 4:
     st.write(st.session_state.count)
     with st.form('Pagina 3'):
         st.header(titulo3)
@@ -140,7 +146,7 @@ if st.session_state.count == 3:
                 if st.form_submit_button(botao2):
                     st.session_state.count += 1
                     st.rerun()
-if st.session_state.count == 4:
+if st.session_state.count == 5:
     st.subheader(importante)
 
     input_cirurgia = st.radio(label=cirurgia, options=opcoes, horizontal=True, index=None)
@@ -167,7 +173,7 @@ if st.session_state.count == 4:
             st.session_state.count += 1
             st.rerun()
 
-if st.session_state.count == 5:
+if st.session_state.count == 6:
     st.header(enviado)
     st.write(taxa)
     st.write(localizaçao)
