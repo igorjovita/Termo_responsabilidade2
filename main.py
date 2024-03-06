@@ -85,11 +85,12 @@ if st.session_state.count == 1:
         col1, col2 = st.columns(2)
 
         with col2:
-            if input_nome == '' or input_data_nascimento is None or input_cpf == '' or input_telefone == '' or input_email == '':
-                st.error('Preencha todos os Campos')
-            st.session_state.dados_cliente.append((input_data_mergulho, input_nome, input_data_nascimento, input_cpf, input_telefone, input_email))
-            st.session_state.count += 1
-            st.rerun()
+            if st.form_submit_button(botao2):
+                if input_nome == '' or input_data_nascimento is None or input_cpf == '' or input_telefone == '' or input_email == '':
+                    st.error('Preencha todos os Campos')
+                st.session_state.dados_cliente.append((input_data_mergulho, input_nome, input_data_nascimento, input_cpf, input_telefone, input_email))
+                st.session_state.count += 1
+                st.rerun()
 if st.session_state.count == 2:
 
     with st.form('Pagina2'):
