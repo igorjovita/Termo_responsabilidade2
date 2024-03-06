@@ -73,10 +73,12 @@ if st.session_state.count == 1:
         input_cpf = st.text_input(cpf)
         input_telefone = st.text_input(telefone)
         input_email = st.text_input(email)
-        if st.form_submit_button(botao2):
-            cadastra_cliente(input_nome, input_data_mergulho, input_telefone, input_cpf, input_estado)
-            st.session_state.count += 1
-            st.rerun()
+        col1, col2 = st.columns(2)
+
+        with col2:
+            if st.form_submit_button(botao2):
+                st.session_state.count += 1
+                st.rerun()
 if st.session_state.count == 2:
 
     with st.form('Pagina2'):
@@ -98,6 +100,7 @@ if st.session_state.count == 2:
                 st.session_state.count -= 1
 
         with col2:
+            cadastra_cliente(input_nome, input_data_mergulho, input_telefone, input_cpf, input_estado)
             st.session_state.count += 1
             st.rerun()
 
