@@ -1,7 +1,7 @@
 pycountry
 iso3166
 pandas~=2.1.2
-mysql-connector-python~=8.2.0
+mysql-connector-python
 streamlit-option-menu
 dotenv-python
 pdfkit~=1.0.0
