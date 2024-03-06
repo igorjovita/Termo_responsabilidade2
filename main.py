@@ -59,6 +59,9 @@ if 'id_termo_clientes' not in st.session_state:
 if 'dados_cliente' not in st.session_state:
     st.session_state.dados_cliente = []
 
+if 'termo_medico' not in st.session_state:
+    st.session_state.termo_medico = []
+
 st.subheader('Termo de Responsabilidade')
 escolha_idioma = st.selectbox(" Seleccionar Idioma / Select Language", ["Português", "English", "Español"], index=None)
 
@@ -161,32 +164,34 @@ if st.session_state.count == 4:
             radio_hemorragia = st.radio(label=hemorragia, options=opcoes, horizontal=True, index=None)
             with colun2:
                 if st.form_submit_button(botao2):
+                    st.session_state.termo_medico.append((radio_gravida, radio_remedio, radio_cardiaca, radio_asma, radio_pulmonar, radio_epilepsia, radio_enjoo, radio_dd, radio_coluna, radio_diabetes, radio_ouvido, radio_hemorragia))
                     st.session_state.count += 1
                     st.rerun()
 if st.session_state.count == 5:
     st.subheader(importante)
 
     input_cirurgia = st.radio(label=cirurgia, options=opcoes, horizontal=True, index=None)
-
+    nome_cirurgia = ''
+    input_tempo_cirurgia = ''
     if input_cirurgia == 'Sim':
         nome_cirurgia = st.text_input(qual_cirurgia)
-        tempo_cirurgia = st.text_input(tempo_cirurgia)
+        input_tempo_cirurgia = st.text_input(tempo_cirurgia)
 
-    st.radio(viajar, options=opcoes, index=None,
+    viagem = st.radio(viajar, options=opcoes, index=None,
              horizontal=True)
-    st.radio(ciente1, opcoes1,
+    menor = st.radio(ciente1, opcoes1,
              index=None)
-    st.radio(ciente2, options=opcoes1, index=None)
+    bebida = st.radio(ciente2, options=opcoes1, index=None)
     st.write(texto_final)
     coluna1, coluna2 = st.columns(2)
 
-    with coluna1:
-        if st.button(botao):
-            st.session_state.count -= 1
-            st.rerun()
-
     with coluna2:
         if st.button(enviar):
+            for dado in st.session_state.termo_medico:
+                gravida, remedio, cardiaca, asma, pulmonar, epilepsia, enjoo, dd, coluna, diabetes, ouvido, hemorragia = dado
+            id_cliente = st.session_state.id_cliente
+            id_termo_cliente = st.session_state.id_termo_clientes
+            insert_termo_medico(id_cliente, id_termo_cliente, gravida, remedio, cardiaca, asma, pulmonar, epilepsia, enjoo, dd, coluna, diabetes, ouvido, hemorragia, input_cirurgia, nome_cirurgia, input_tempo_cirurgia, viagem, menor, bebida)
             st.session_state.count += 1
             st.rerun()
 

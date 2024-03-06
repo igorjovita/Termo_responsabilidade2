@@ -314,3 +314,14 @@ def cadastra_cliente(nome, data, telefone, cpf, estado):
         cursor.execute(f"UPDATE reserva set nome_cliente = '{nome}' WHERE id = {id_cliente} and data = '{data}'")
 
     return id_cliente
+
+
+def insert_termo_medico(id_cliente, id_termo_cliente, gravida, remedio, cardiaca, asma, pulmonar, epilepsia, enjoo, dd,
+                        coluna, diabetes, ouvido, hemorragia, input_cirurgia, nome_cirurgia, input_tempo_cirurgia,
+                        viagem, menor, bebida):
+    mydb.connect()
+
+    cursor.execute(
+        "INSERT INTO termo_medico (id_cliente, id_termo_cliente, gravida, remedio, doenca_cardiaca, asma, doenca_pulmonar, epilepsia, enjoo, dd, coluna, diabetes, ouvido, hemorragia, cirurgia, nome_cirurgia, tempo_cirurgia, viagem,  menor, bebida) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+        (id_cliente, id_termo_cliente, gravida, remedio, cardiaca, asma, pulmonar, epilepsia, enjoo, dd, coluna,
+         diabetes, ouvido, hemorragia, input_cirurgia, nome_cirurgia, input_tempo_cirurgia, viagem, menor, bebida))
