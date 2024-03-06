@@ -3,7 +3,6 @@ import os
 import mysql.connector
 import streamlit as st
 
-
 mydb = mysql.connector.connect(
     host=os.getenv("DB_HOST"),
     user=os.getenv("DB_USERNAME"),
@@ -15,6 +14,8 @@ mydb = mysql.connector.connect(
     charset="utf8")
 
 cursor = mydb.cursor(buffered=True)
+
+
 def linguagem(linguagem):
     if linguagem == "Português":
         titulo = "Formulário de Inscrição"
@@ -46,7 +47,7 @@ def linguagem(linguagem):
     """)
         titulo2 = 'Certificado de Entendimento e Assunção Expressa de Risco'
         nome_emergencia = 'Nome de um contato de emergência'
-        telefone_emergencia ='Telefone do contato de emergência'
+        telefone_emergencia = 'Telefone do contato de emergência'
         botao2 = 'Proximo'
         titulo3 = 'HISTÓRICO MÉDICO – Informações Confidenciais'
         subtitulo = ("""
@@ -97,7 +98,7 @@ def linguagem(linguagem):
         formato_data = 'DD/MM/YYYY'
         endereco = 'Direccion Completa'
         botao = "Anterior"
-        texto ="""  
+        texto = """  
         Soy consciente de que el buceo recreativo con aire comprimido tiene sus riesgos y que antes de hacerlo, se me instruirá sobre cómo proceder durante mi recorrido guiado con respecto a los procedimientos de seguridad, como el despeje de la máscara, la recuperación del regulador y cómo comunicarse a través de señales submarinas.
         Se me instruirá durante la reunión informativa sobre cómo proceder con la embarcación, la respiración y la igualación de las vías respiratorias, teniendo la posibilidad de hacer cualquier pregunta que quede sobre mi recorrido antes de que ocurra.
         También soy consciente de que los buceos se realizan en un lugar lejano, tanto en tiempo como en espacio, del servicio médico. 
@@ -219,20 +220,18 @@ def linguagem(linguagem):
         taxa = 'Please remember to bring R$10.00 in cash for the boarding fee'
         localizaçao = 'Check-in starts at 07:30 and our vessel will depart at 08:30'
 
-
-
-    return titulo, data_mergulho, check_in, nome, cpf, data_nascimento, email, telefone, formato_data, endereco, botao, texto, titulo2, nome_emergencia, telefone_emergencia, botao2,titulo3, subtitulo, gravida, cardiaca, pulmonar, enjoo, coluna, ouvido, remedio, asma, epilepsia, dd, diabetes, hemorragia, cirurgia, opcoes, opcoes1, qual_cirurgia, tempo_cirurgia, viajar, ciente1, ciente2, texto_final, pais, estado, enviar, importante, enviado, taxa, localizaçao
-
+    return titulo, data_mergulho, check_in, nome, cpf, data_nascimento, email, telefone, formato_data, endereco, botao, texto, titulo2, nome_emergencia, telefone_emergencia, botao2, titulo3, subtitulo, gravida, cardiaca, pulmonar, enjoo, coluna, ouvido, remedio, asma, epilepsia, dd, diabetes, hemorragia, cirurgia, opcoes, opcoes1, qual_cirurgia, tempo_cirurgia, viajar, ciente1, ciente2, texto_final, pais, estado, enviar, importante, enviado, taxa, localizaçao
 
 
 def cadastra_cliente(nome, data, telefone, cpf, estado):
-    cursor.execute(f"SELECT r.data, c.nome, c.id FROM reserva AS r INNER JOIN cliente AS c ON r.id_cliente = c.id WHERE c.nome LIKE '{nome}%' and r.data = '{data}'")
+    cursor.execute(
+        f"SELECT r.data, c.nome, c.id FROM reserva AS r INNER JOIN cliente AS c ON r.id_cliente = c.id WHERE c.nome LIKE '{nome}%' and r.data = '{data}'")
     dados = cursor.fetchone()
 
     st.write(dados)
     if dados is not None:
         id = dados[2]
-        cursor.execute(f"UPDATE cliente SET nome = '{nome}', telefone = '{telefone}', cpf = '{cpf}', estado = '{estado}' WHERE id = {id}")
+        cursor.execute(
+            f"UPDATE cliente SET nome = '{nome}', telefone = '{telefone}', cpf = '{cpf}', estado = '{estado}' WHERE id = {id}")
 
         cursor.execute(f"UPDATE reserva set nome_cliente = '{nome}' WHERE id = {id} and data = '{data}'")
-
