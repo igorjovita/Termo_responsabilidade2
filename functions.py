@@ -287,7 +287,7 @@ def cadastra_cliente(nome, data, telefone, cpf, estado):
     mydb.connect()
     cursor.execute(
         f"SELECT c.id FROM reserva AS r INNER JOIN cliente AS c ON r.id_cliente = c.id WHERE c.nome LIKE '{nome}%' and r.data = '{data}'")
-    dados = cursor.fetchone()
+    dados = cursor.fetchone()[0]
     id_cliente = None
 
     st.write(dados)
