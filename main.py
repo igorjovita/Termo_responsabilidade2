@@ -51,7 +51,7 @@ if 'count' not in st.session_state:
     st.session_state.count = 0
 
 if 'id_cliente' not in st.session_state:
-    st.session_state.id_cliente = 0
+    st.session_state.id_cliente = ''
 
 if 'id_termo_clientes' not in st.session_state:
     st.session_state.id_termo_clientes = ''
