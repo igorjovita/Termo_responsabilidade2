@@ -1,11 +1,18 @@
+import os
+
 import mysql.connector
 import streamlit as st
+
+
 mydb = mysql.connector.connect(
-    host='localhost',
-    user='root',
-    passwd='divoom123',
-    db='acquaworld',
-    autocommit=True)
+    host=os.getenv("DB_HOST"),
+    user=os.getenv("DB_USERNAME"),
+    passwd=os.getenv("DB_PASSWORD"),
+    db=os.getenv("DB_NAME"),
+    autocommit=True,
+    ssl_verify_identity=False,
+    ssl_ca=r"C:\users\acqua\downloads\cacert-2023-08-22.pem",
+    charset="utf8")
 
 cursor = mydb.cursor(buffered=True)
 def linguagem(linguagem):

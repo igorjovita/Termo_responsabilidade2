@@ -1,2 +1,4 @@
 pycountry
 iso3166
+streamlit
+mysql-connector-python
