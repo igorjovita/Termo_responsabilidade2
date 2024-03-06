@@ -3,3 +3,4 @@ iso3166
 streamlit
 mysql-connector-python
 pip>=24.0
+mysql
