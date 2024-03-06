@@ -285,8 +285,9 @@ def insert_termo_clientes(data_reserva, id_cliente, nome, telefone, cpf, data_na
 
 def cadastra_cliente(nome, data, telefone, cpf, estado):
     mydb.connect()
+    nome = str(nome).split()
     cursor.execute(
-        f"SELECT c.id FROM reserva AS r INNER JOIN cliente AS c ON r.id_cliente = c.id WHERE c.nome LIKE '{nome}%' and r.data = '{data}'")
+        f"SELECT c.id FROM reserva AS r INNER JOIN cliente AS c ON r.id_cliente = c.id WHERE c.nome LIKE '{nome[0]}%' and r.data = '{data}'")
     dados = cursor.fetchone()
     id_cliente = None
 
