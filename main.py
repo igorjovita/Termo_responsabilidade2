@@ -120,8 +120,8 @@ if st.session_state.count == 2:
                 st.write(f'Sessao id clientes - {st.session_state.id_clientes}')
                 id_cliente = st.session_state.id_clientes
                 st.session_state.id_termo_clientes = insert_termo_clientes(input_data_mergulho, id_cliente, input_nome, input_telefone, input_cpf, input_data_nascimento, input_email, input_nome_emergencia, input_telefone_emergencia, input_estado, input_pais)
-                st.session_state.count += 1
-                st.rerun()
+                # st.session_state.count += 1
+                # st.rerun()
 
 
 
