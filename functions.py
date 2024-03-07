@@ -299,7 +299,7 @@ def cadastra_cliente(nome, data, telefone, cpf, estado):
     dados = cursor.fetchall()
     id_cliente = None
 
-    if dados != 0:
+    if len(dados) != 0:
         if len(dados) >= 1:
             nome_cliente = f'{nome_cliente[0]} {nome_cliente[1]}'
             cursor.execute(
