@@ -323,9 +323,10 @@ def cadastra_cliente(nome, data, telefone, cpf, estado):
         )
 
         cursor.execute("SELECT tipo from reserva where id_cliente = %s", (id_cliente, ))
-        tipo = cursor.fetchone()[0]
-        st.write(tipo)
-        cursor.execute(f"UPDATE reserva set nome_cliente = '{nome}' WHERE id_cliente = {id_cliente} and data = '{data}'")
+        tipo = cursor.fetchone()
+        if tipo:
+            if tipo[0] != 'OWD' and tipo[0] != 'ADV':
+                cursor.execute(f"UPDATE reserva set nome_cliente = '{nome}' WHERE id_cliente = {id_cliente} and data = '{data}'")
 
     return id_cliente
 
