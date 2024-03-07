@@ -300,8 +300,9 @@ def cadastra_cliente(nome, data, telefone, cpf, estado):
     id_cliente = None
 
     if dados is not None:
-
-
+        if len(dados) >= 1:
+            nome_cliente = nome_cliente[0] + nome_cliente[1]
+        st.write(nome_cliente)
         id_cliente = dados
         st.write(f'id cliente - {id_cliente}')
         st.write(nome)
