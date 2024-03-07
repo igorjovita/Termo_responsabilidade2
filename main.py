@@ -10,7 +10,6 @@ st.write('''<style>
 }
 </style>''', unsafe_allow_html=True)
 
-
 paises = [
     "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina",
     "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados",
@@ -91,7 +90,8 @@ if st.session_state.count == 1:
             if st.form_submit_button(botao2):
                 if input_nome == '' or input_data_nascimento is None or input_cpf == '' or input_telefone == '' or input_email == '':
                     st.error('Preencha todos os Campos')
-                st.session_state.dados_cliente.append((input_data_mergulho, input_nome, input_data_nascimento, input_cpf, input_telefone, input_email))
+                st.session_state.dados_cliente.append(
+                    (input_data_mergulho, input_nome, input_data_nascimento, input_cpf, input_telefone, input_email))
                 st.session_state.count += 1
                 st.rerun()
 if st.session_state.count == 2:
@@ -110,20 +110,23 @@ if st.session_state.count == 2:
 
         col1, col2 = st.columns(2)
 
-
         with col2:
             if st.form_submit_button(botao2):
 
                 for cliente in st.session_state.dados_cliente:
                     input_data_mergulho, input_nome, input_data_nascimento, input_cpf, input_telefone, input_email = cliente
-                st.session_state.id_clientes = cadastra_cliente(input_nome, input_data_mergulho, input_telefone, input_cpf, input_estado)
+                st.session_state.id_clientes = cadastra_cliente(input_nome, input_data_mergulho, input_telefone,
+                                                                input_cpf, input_estado)
                 st.write(f'Sessao id clientes - {st.session_state.id_clientes}')
                 id_cliente = st.session_state.id_clientes
-                st.session_state.id_termo_clientes = insert_termo_clientes(input_data_mergulho, id_cliente, input_nome, input_telefone, input_cpf, input_data_nascimento, input_email, input_nome_emergencia, input_telefone_emergencia, input_estado, input_pais)
+                st.session_state.id_termo_clientes = insert_termo_clientes(input_data_mergulho, id_cliente, input_nome,
+                                                                           input_telefone, input_cpf,
+                                                                           input_data_nascimento, input_email,
+                                                                           input_nome_emergencia,
+                                                                           input_telefone_emergencia, input_estado,
+                                                                           input_pais)
                 st.session_state.count += 1
                 st.rerun()
-
-
 
 if st.session_state.count == 3:
     with st.form('Pagina2'):
@@ -131,7 +134,6 @@ if st.session_state.count == 3:
         st.subheader(titulo2)
         st.write(texto)
         colun1, colun2 = st.columns(2)
-
 
         with colun2:
             if st.form_submit_button(botao2):
@@ -152,7 +154,6 @@ if st.session_state.count == 4:
         radio_ouvido = st.radio(label=ouvido, options=opcoes, horizontal=True,
                                 index=None)
 
-
         radio_remedio = st.radio(label=remedio, options=opcoes, horizontal=True, index=None)
         radio_asma = st.radio(label=asma, options=opcoes, horizontal=True,
                               index=None)
@@ -161,10 +162,12 @@ if st.session_state.count == 4:
         radio_dd = st.radio(label=dd, options=opcoes, horizontal=True, index=None)
         radio_diabetes = st.radio(label=diabetes, options=opcoes, horizontal=True, index=None)
         radio_hemorragia = st.radio(label=hemorragia, options=opcoes, horizontal=True, index=None)
-        col1, col2 = st.columns(2)
-        with colun2:
+        colun1, colun2 = st.columns(2)
+            with colun2:
             if st.form_submit_button(botao2):
-                st.session_state.termo_medico.append((radio_gravida, radio_remedio, radio_cardiaca, radio_asma, radio_pulmonar, radio_epilepsia, radio_enjoo, radio_dd, radio_coluna, radio_diabetes, radio_ouvido, radio_hemorragia))
+                st.session_state.termo_medico.append((radio_gravida, radio_remedio, radio_cardiaca, radio_asma,
+                                                      radio_pulmonar, radio_epilepsia, radio_enjoo, radio_dd,
+                                                      radio_coluna, radio_diabetes, radio_ouvido, radio_hemorragia))
                 st.session_state.count += 1
                 st.rerun()
 if st.session_state.count == 5:
@@ -178,9 +181,9 @@ if st.session_state.count == 5:
         input_tempo_cirurgia = st.text_input(tempo_cirurgia)
 
     viagem = st.radio(viajar, options=opcoes, index=None,
-             horizontal=True)
+                      horizontal=True)
     menor = st.radio(ciente1, opcoes1,
-             index=None)
+                     index=None)
     bebida = st.radio(ciente2, options=opcoes1, index=None)
     st.write(texto_final)
     coluna1, coluna2 = st.columns(2)
@@ -191,7 +194,9 @@ if st.session_state.count == 5:
                 gravida, remedio, cardiaca, asma, pulmonar, epilepsia, enjoo, dd, coluna, diabetes, ouvido, hemorragia = dado
             id_cliente = st.session_state.id_clientes
             id_termo_cliente = st.session_state.id_termo_clientes
-            insert_termo_medico(id_cliente, id_termo_cliente, gravida, remedio, cardiaca, asma, pulmonar, epilepsia, enjoo, dd, coluna, diabetes, ouvido, hemorragia, input_cirurgia, nome_cirurgia, input_tempo_cirurgia, viagem, menor, bebida)
+            insert_termo_medico(id_cliente, id_termo_cliente, gravida, remedio, cardiaca, asma, pulmonar, epilepsia,
+                                enjoo, dd, coluna, diabetes, ouvido, hemorragia, input_cirurgia, nome_cirurgia,
+                                input_tempo_cirurgia, viagem, menor, bebida)
             st.session_state.count += 1
             st.rerun()
 
@@ -200,4 +205,5 @@ if st.session_state.count == 6:
     st.write(taxa)
     st.write(localizaçao)
     st.write('📍 Praça da Bandeira, 23 - Praia dos Anjos')
-    st.image('imagem1.jpg', caption='Nossa loja se encontra na Praça da Bandeira, 23 - Praia dos Anjos', use_column_width=True)
+    st.image('imagem1.jpg', caption='Nossa loja se encontra na Praça da Bandeira, 23 - Praia dos Anjos',
+             use_column_width=True)
