@@ -305,11 +305,13 @@ def cadastra_cliente(nome, data, telefone, cpf, estado):
             cursor.execute(
                 f"SELECT c.id FROM reserva AS r INNER JOIN cliente AS c ON r.id_cliente = c.id WHERE c.nome LIKE '{nome_cliente}%' and r.data = '{data}'")
             dados = cursor.fetchall()
+            if len(dados) >= 1:
+                id_cliente = ''
             st.write(f'id - 2 - {dados}')
         st.write(nome_cliente)
 
         id_cliente = dados
-        st.write(f'id cliente - {id_cliente}')
+        st.write(f'id cliente - {str(id_cliente).translate(str.maketrans('', '', chars))}')
         st.write(nome)
         st.write(telefone)
         st.write(cpf)
