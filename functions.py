@@ -307,26 +307,22 @@ def cadastra_cliente(nome, data, telefone, cpf, estado):
             dados = cursor.fetchall()
             if len(dados) >= 1:
                 id_cliente = ''
-            st.write(f'id - 2 - {dados}')
-        st.write(nome_cliente)
 
-        id_cliente = str(dados).translate(str.maketrans('', '', chars))
-        st.write(f'id cliente - {id_cliente}')
-        st.write(dados)
-        st.write(nome)
-        st.write(telefone)
-        st.write(cpf)
-        st.write(estado)
+            else:
+                id_cliente = str(dados).translate(str.maketrans('', '', chars))
+        else:
+            id_cliente = str(dados).translate(str.maketrans('', '', chars))
         cursor.execute(
             "UPDATE cliente SET nome = %s, telefone = %s, cpf = %s, estado = %s WHERE id = %s",
             (nome, telefone, cpf, estado, id_cliente)
         )
 
-        cursor.execute("SELECT tipo from reserva where id_cliente = %s", (id_cliente, ))
+        cursor.execute("SELECT tipo from reserva where id_cliente = %s", (id_cliente,))
         tipo = cursor.fetchone()
         if tipo:
             if tipo[0] != 'OWD' and tipo[0] != 'ADV':
-                cursor.execute(f"UPDATE reserva set nome_cliente = '{nome}' WHERE id_cliente = {id_cliente} and data = '{data}'")
+                cursor.execute(
+                    f"UPDATE reserva set nome_cliente = '{nome}' WHERE id_cliente = {id_cliente} and data = '{data}'")
 
     return id_cliente
 
