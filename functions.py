@@ -300,7 +300,7 @@ def cadastra_cliente(nome, data, telefone, cpf, estado):
     id_cliente = None
 
     if len(dados) != 0:
-        if len(dados) >= 1:
+        if len(dados) > 1:
             nome_cliente = f'{nome_cliente[0]} {nome_cliente[1]}'
             cursor.execute(
                 f"SELECT c.id FROM reserva AS r INNER JOIN cliente AS c ON r.id_cliente = c.id WHERE c.nome LIKE '{nome_cliente}%' and r.data = '{data}'")
@@ -322,7 +322,10 @@ def cadastra_cliente(nome, data, telefone, cpf, estado):
             (nome, telefone, cpf, estado, id_cliente)
         )
 
-        cursor.execute(f"UPDATE reserva set nome_cliente = '{nome}' WHERE id = {id_cliente} and data = '{data}'")
+        cursor.execute("SELECT tipo from reserva where id_cliente = %s", (id_cliente, ))
+        tipo = cursor.fetchall()
+        st.write(tipo)
+        cursor.execute(f"UPDATE reserva set nome_cliente = '{nome}' WHERE id_cliente = {id_cliente} and data = '{data}'")
 
     return id_cliente
 
