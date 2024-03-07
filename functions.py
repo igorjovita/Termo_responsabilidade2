@@ -302,7 +302,12 @@ def cadastra_cliente(nome, data, telefone, cpf, estado):
     if dados is not None:
         if len(dados) >= 1:
             nome_cliente = f'{nome_cliente[0]} {nome_cliente[1]}'
+            cursor.execute(
+                f"SELECT c.id FROM reserva AS r INNER JOIN cliente AS c ON r.id_cliente = c.id WHERE c.nome LIKE '{nome_cliente}%' and r.data = '{data}'")
+            dados = cursor.fetchall()
+            st.write(f'id - 2 - {dados}')
         st.write(nome_cliente)
+
         id_cliente = dados
         st.write(f'id cliente - {id_cliente}')
         st.write(nome)
