@@ -143,30 +143,29 @@ if st.session_state.count == 4:
     with st.form('Pagina 3'):
         st.header(titulo3)
         st.write(subtitulo)
-        colun1, colun2 = st.columns(2)
-        with colun1:
-            radio_gravida = st.radio(label=gravida, options=opcoes, horizontal=True, index=None)
-            radio_cardiaca = st.radio(label=cardiaca, options=opcoes, horizontal=True, index=None)
-            radio_pulmonar = st.radio(label=pulmonar, options=opcoes, horizontal=True, index=None)
-            radio_enjoo = st.radio(label=enjoo, options=opcoes, horizontal=True, index=None)
-            radio_coluna = st.radio(label=coluna, options=opcoes, horizontal=True, index=None)
-            radio_ouvido = st.radio(label=ouvido, options=opcoes, horizontal=True,
-                                    index=None)
 
+        radio_gravida = st.radio(label=gravida, options=opcoes, horizontal=True, index=None)
+        radio_cardiaca = st.radio(label=cardiaca, options=opcoes, horizontal=True, index=None)
+        radio_pulmonar = st.radio(label=pulmonar, options=opcoes, horizontal=True, index=None)
+        radio_enjoo = st.radio(label=enjoo, options=opcoes, horizontal=True, index=None)
+        radio_coluna = st.radio(label=coluna, options=opcoes, horizontal=True, index=None)
+        radio_ouvido = st.radio(label=ouvido, options=opcoes, horizontal=True,
+                                index=None)
+
+
+        radio_remedio = st.radio(label=remedio, options=opcoes, horizontal=True, index=None)
+        radio_asma = st.radio(label=asma, options=opcoes, horizontal=True,
+                              index=None)
+        radio_epilepsia = st.radio(label=epilepsia, options=opcoes, horizontal=True,
+                                   index=None)
+        radio_dd = st.radio(label=dd, options=opcoes, horizontal=True, index=None)
+        radio_diabetes = st.radio(label=diabetes, options=opcoes, horizontal=True, index=None)
+        radio_hemorragia = st.radio(label=hemorragia, options=opcoes, horizontal=True, index=None)
         with colun2:
-            radio_remedio = st.radio(label=remedio, options=opcoes, horizontal=True, index=None)
-            radio_asma = st.radio(label=asma, options=opcoes, horizontal=True,
-                                  index=None)
-            radio_epilepsia = st.radio(label=epilepsia, options=opcoes, horizontal=True,
-                                       index=None)
-            radio_dd = st.radio(label=dd, options=opcoes, horizontal=True, index=None)
-            radio_diabetes = st.radio(label=diabetes, options=opcoes, horizontal=True, index=None)
-            radio_hemorragia = st.radio(label=hemorragia, options=opcoes, horizontal=True, index=None)
-            with colun2:
-                if st.form_submit_button(botao2):
-                    st.session_state.termo_medico.append((radio_gravida, radio_remedio, radio_cardiaca, radio_asma, radio_pulmonar, radio_epilepsia, radio_enjoo, radio_dd, radio_coluna, radio_diabetes, radio_ouvido, radio_hemorragia))
-                    st.session_state.count += 1
-                    st.rerun()
+            if st.form_submit_button(botao2):
+                st.session_state.termo_medico.append((radio_gravida, radio_remedio, radio_cardiaca, radio_asma, radio_pulmonar, radio_epilepsia, radio_enjoo, radio_dd, radio_coluna, radio_diabetes, radio_ouvido, radio_hemorragia))
+                st.session_state.count += 1
+                st.rerun()
 if st.session_state.count == 5:
     st.subheader(importante)
 
