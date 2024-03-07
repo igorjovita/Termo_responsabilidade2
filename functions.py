@@ -310,8 +310,8 @@ def cadastra_cliente(nome, data, telefone, cpf, estado):
             st.write(f'id - 2 - {dados}')
         st.write(nome_cliente)
 
-        id_cliente = dados
-        st.write(f'id cliente - {str(id_cliente).translate(str.maketrans('', '', chars))}')
+        id_cliente = str(dados).translate(str.maketrans('', '', chars))
+        st.write(f'id cliente - {id_cliente}')
         st.write(nome)
         st.write(telefone)
         st.write(cpf)
