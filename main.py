@@ -161,6 +161,7 @@ if st.session_state.count == 4:
         radio_dd = st.radio(label=dd, options=opcoes, horizontal=True, index=None)
         radio_diabetes = st.radio(label=diabetes, options=opcoes, horizontal=True, index=None)
         radio_hemorragia = st.radio(label=hemorragia, options=opcoes, horizontal=True, index=None)
+        col1, col2 = st.columns(2)
         with colun2:
             if st.form_submit_button(botao2):
                 st.session_state.termo_medico.append((radio_gravida, radio_remedio, radio_cardiaca, radio_asma, radio_pulmonar, radio_epilepsia, radio_enjoo, radio_dd, radio_coluna, radio_diabetes, radio_ouvido, radio_hemorragia))
