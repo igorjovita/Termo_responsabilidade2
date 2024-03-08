@@ -294,17 +294,22 @@ def insert_termo_clientes(data_reserva, id_cliente, nome, telefone, cpf, data_na
 def cadastra_cliente(nome, data, telefone, cpf, estado):
     mydb.connect()
     nome_cliente = str(nome).split()
+    st.write(nome)
+    st.write(nome_cliente)
     cursor.execute(
         f"SELECT c.id FROM reserva AS r INNER JOIN cliente AS c ON r.id_cliente = c.id WHERE c.nome LIKE '{nome_cliente[0]}%' and r.data = '{data}'")
     dados = cursor.fetchall()
+    st.write(f'1 - {dados}')
     id_cliente = None
 
     if len(dados) != 0:
         if len(dados) > 1:
             nome_cliente = f'{nome_cliente[0]} {nome_cliente[1]}'
+            st.write(nome_cliente)
             cursor.execute(
                 f"SELECT c.id FROM reserva AS r INNER JOIN cliente AS c ON r.id_cliente = c.id WHERE c.nome LIKE '{nome_cliente}%' and r.data = '{data}'")
             dados = cursor.fetchall()
+            st.write(f'IF 2 - {dados}')
             if len(dados) >= 1:
                 id_cliente = ''
 
@@ -312,17 +317,19 @@ def cadastra_cliente(nome, data, telefone, cpf, estado):
                 id_cliente = str(dados).translate(str.maketrans('', '', chars))
         else:
             id_cliente = str(dados).translate(str.maketrans('', '', chars))
-        cursor.execute(
-            "UPDATE cliente SET nome = %s, telefone = %s, cpf = %s, estado = %s WHERE id = %s",
-            (nome, telefone, cpf, estado, id_cliente)
-        )
 
-        cursor.execute("SELECT tipo from reserva where id_cliente = %s", (id_cliente,))
-        tipo = cursor.fetchone()
-        if tipo:
-            if tipo[0] != 'OWD' and tipo[0] != 'ADV':
-                cursor.execute(
-                    f"UPDATE reserva set nome_cliente = '{nome}' WHERE id_cliente = {id_cliente} and data = '{data}'")
+        st.write(id_cliente)
+        # cursor.execute(
+        #     "UPDATE cliente SET nome = %s, telefone = %s, cpf = %s, estado = %s WHERE id = %s",
+        #     (nome, telefone, cpf, estado, id_cliente)
+        # )
+        #
+        # cursor.execute("SELECT tipo from reserva where id_cliente = %s", (id_cliente,))
+        # tipo = cursor.fetchone()
+        # if tipo:
+        #     if tipo[0] != 'OWD' and tipo[0] != 'ADV':
+        #         cursor.execute(
+        #             f"UPDATE reserva set nome_cliente = '{nome}' WHERE id_cliente = {id_cliente} and data = '{data}'")
 
     return id_cliente
 
