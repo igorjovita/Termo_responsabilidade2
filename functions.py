@@ -297,8 +297,18 @@ def cadastra_cliente(nome, data, telefone, cpf, estado):
     st.write(nome)
     st.write(nome_cliente)
     cursor.execute(
-        f"SELECT c.id FROM reserva AS r INNER JOIN cliente AS c ON r.id_cliente = c.id WHERE c.nome LIKE '{nome_cliente[0]}%' and r.data = '{data}'")
+        f"SELECT id_cliente FROM reserva  WHERE nome_cliente LIKE '{nome_cliente[0]}%' and data = '{data}'")
     dados = cursor.fetchall()
+    lista = []
+
+    if len(dados) >= 1:
+        for i, dado in enumerate(dados):
+            cursor.execute(f"SELECT * FROM termo_cliente where id_cliente = %s and data_reserva = %s", (dado[i], data))
+            resultado = cursor.fetchall()
+            if resultado:
+                lista.append(dado)
+        if len(lista) >= 1:
+            dados = ''
     st.write(f'1 - {dados}')
     id_cliente = None
 
