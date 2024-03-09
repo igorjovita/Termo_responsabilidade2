@@ -303,7 +303,7 @@ def cadastra_cliente(nome, data, telefone, cpf, estado):
 
     if len(dados) >= 1:
         for i, dado in enumerate(dados):
-            cursor.execute(f"SELECT * FROM termo_cliente where id_cliente = %s and data_reserva = %s", (dado[i], data))
+            cursor.execute(f"SELECT * FROM termo_cliente where id_cliente = %s and data_reserva = %s", (dado, data))
             resultado = cursor.fetchall()
             if resultado:
                 lista.append(dado)
