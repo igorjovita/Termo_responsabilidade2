@@ -301,14 +301,14 @@ def cadastra_cliente(nome, data, telefone, cpf, estado):
     dados = cursor.fetchall()
     lista = []
 
-    if len(dados) >= 1:
-        for i, dado in enumerate(dados):
-            cursor.execute(f"SELECT * FROM termo_clientes where id_cliente = %s and data_reserva = %s", (dado[i], data))
-            resultado = cursor.fetchall()
-            if resultado:
-                lista.append(dado)
-        if len(lista) >= 1:
-            dados = ''
+    # if len(dados) >= 1:
+    #     for i, dado in enumerate(dados):
+    #         cursor.execute(f"SELECT * FROM termo_clientes where id_cliente = %s and data_reserva = %s", (dado[i], data))
+    #         resultado = cursor.fetchall()
+    #         if resultado:
+    #             lista.append(dado)
+    #     if len(lista) >= 1:
+    #         dados = ''
     st.write(f'1 - {dados}')
     id_cliente = None
 
