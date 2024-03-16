@@ -125,8 +125,8 @@ if st.session_state.count == 2:
                                                                            input_nome_emergencia,
                                                                            input_telefone_emergencia, input_estado,
                                                                            input_pais)
-                # st.session_state.count += 1
-                # st.rerun()
+                st.session_state.count += 1
+                st.rerun()
 
 if st.session_state.count == 3:
     with st.form('Pagina2'):
