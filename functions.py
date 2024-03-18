@@ -68,6 +68,7 @@ def linguagem(linguagem):
         dd = 'Acidente de mergulho, doença desconpressiva?'
         diabetes = 'Diabetes ou problemas de pressão arterial?'
         hemorragia = 'Hemorragias, problmas no sangue ou ulcera?'
+        sinusite = 'Sinusite frequente?'
         cirurgia = 'Já fez alguma cirurgia?'
         opcoes = ['Sim', 'Não']
 
@@ -136,6 +137,7 @@ def linguagem(linguagem):
         dd = "¿Accidente de buceo, enfermedad por descompresión?"
         diabetes = "¿Diabetes o problemas de presión arterial?"
         hemorragia = "¿Trastornos hemorrágicos, problemas de sangre o úlceras?"
+        sinusite = "¿Sinusitis frecuente?"
         cirurgia = "¿Ha tenido alguna cirugía?"
         opcoes = ['Sí', 'No']
 
@@ -205,6 +207,7 @@ def linguagem(linguagem):
         dd = "Diving accident, decompression illness?"
         diabetes = "Diabetes or blood pressure problems?"
         hemorragia = "Bleeding disorders, blood problems, or ulcers?"
+        sinusite = "Frequent sinusitis?"
         cirurgia = "Have you had any surgeries?"
         opcoes = ['Yes', 'No']
         opcoes1 = ['Yes']
@@ -222,7 +225,7 @@ def linguagem(linguagem):
         taxa = 'Please remember to bring R$10.00 in cash for the boarding fee'
         localizaçao = 'Check-in starts at 07:30 and our vessel will depart at 08:30'
 
-    return titulo, data_mergulho, check_in, nome, cpf, data_nascimento, email, telefone, formato_data, endereco, botao, texto, titulo2, nome_emergencia, telefone_emergencia, botao2, titulo3, subtitulo, gravida, cardiaca, pulmonar, enjoo, coluna, ouvido, remedio, asma, epilepsia, dd, diabetes, hemorragia, cirurgia, opcoes, opcoes1, qual_cirurgia, tempo_cirurgia, viajar, ciente1, ciente2, texto_final, pais, estado, enviar, importante, enviado, taxa, localizaçao
+    return titulo, data_mergulho, check_in, nome, cpf, data_nascimento, email, telefone, formato_data, endereco, botao, texto, titulo2, nome_emergencia, telefone_emergencia, botao2, titulo3, subtitulo, gravida, cardiaca, pulmonar, enjoo, coluna, ouvido, remedio, asma, epilepsia, dd, diabetes, hemorragia, sinusite, cirurgia, opcoes, opcoes1, qual_cirurgia, tempo_cirurgia, viajar, ciente1, ciente2, texto_final, pais, estado, enviar, importante, enviado, taxa, localizaçao
 
 
 # def create_termo_clientes():
@@ -345,11 +348,11 @@ def cadastra_cliente(nome, data, telefone, cpf, estado):
 
 
 def insert_termo_medico(id_cliente, id_termo_cliente, gravida, remedio, cardiaca, asma, pulmonar, epilepsia, enjoo, dd,
-                        coluna, diabetes, ouvido, hemorragia, input_cirurgia, nome_cirurgia, input_tempo_cirurgia,
+                        coluna, diabetes, ouvido, hemorragia, sinusite, input_cirurgia, nome_cirurgia, input_tempo_cirurgia,
                         viagem, menor, bebida):
     mydb.connect()
 
     cursor.execute(
-        "INSERT INTO termo_medico (id_cliente, id_termo_cliente, gravida, remedio, doenca_cardiaca, asma, doenca_pulmonar, epilepsia, enjoo, dd, coluna, diabetes, ouvido, hemorragia, cirurgia, nome_cirurgia, tempo_cirurgia, viagem,  menor, bebida) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+        "INSERT INTO termo_medico (id_cliente, id_termo_cliente, gravida, remedio, doenca_cardiaca, asma, doenca_pulmonar, epilepsia, enjoo, dd, coluna, diabetes, ouvido, hemorragia, sinusite, cirurgia, nome_cirurgia, tempo_cirurgia, viagem,  menor, bebida) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
         (id_cliente, id_termo_cliente, gravida, remedio, cardiaca, asma, pulmonar, epilepsia, enjoo, dd, coluna,
-         diabetes, ouvido, hemorragia, input_cirurgia, nome_cirurgia, input_tempo_cirurgia, viagem, menor, bebida))
+         diabetes, ouvido, hemorragia, sinusite, input_cirurgia, nome_cirurgia, input_tempo_cirurgia, viagem, menor, bebida))

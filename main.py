@@ -68,7 +68,7 @@ if escolha_idioma is not None:
     if st.session_state.count == 0:
         st.session_state.count += 1
 
-    titulo, data_mergulho, check_in, nome, cpf, data_nascimento, email, telefone, formato_data, endereco, botao, texto, titulo2, nome_emergencia, telefone_emergencia, botao2, titulo3, subtitulo, gravida, cardiaca, pulmonar, enjoo, coluna, ouvido, remedio, asma, epilepsia, dd, diabetes, hemorragia, cirurgia, opcoes, opcoes1, qual_cirurgia, tempo_cirurgia, viajar, ciente1, ciente2, texto_final, pais, estado, enviar, importante, enviado, taxa, localizaçao = linguagem(
+    titulo, data_mergulho, check_in, nome, cpf, data_nascimento, email, telefone, formato_data, endereco, botao, texto, titulo2, nome_emergencia, telefone_emergencia, botao2, titulo3, subtitulo, gravida, cardiaca, pulmonar, enjoo, coluna, ouvido, remedio, asma, epilepsia, dd, diabetes, hemorragia, sinusite, cirurgia, opcoes, opcoes1, qual_cirurgia, tempo_cirurgia, viajar, ciente1, ciente2, texto_final, pais, estado, enviar, importante, enviado, taxa, localizaçao = linguagem(
         escolha_idioma)
 
 # Exibindo os inputs do formulário
@@ -162,12 +162,13 @@ if st.session_state.count == 4:
         radio_dd = st.radio(label=dd, options=opcoes, horizontal=True, index=None)
         radio_diabetes = st.radio(label=diabetes, options=opcoes, horizontal=True, index=None)
         radio_hemorragia = st.radio(label=hemorragia, options=opcoes, horizontal=True, index=None)
+        radio_sinusite = st.radio(label=sinusite, options=opcoes, horizontal=True, index=None)
         colun1, colun2 = st.columns(2)
         with colun2:
             if st.form_submit_button(botao2):
                 st.session_state.termo_medico.append((radio_gravida, radio_remedio, radio_cardiaca, radio_asma,
                                                       radio_pulmonar, radio_epilepsia, radio_enjoo, radio_dd,
-                                                      radio_coluna, radio_diabetes, radio_ouvido, radio_hemorragia))
+                                                      radio_coluna, radio_diabetes, radio_ouvido, radio_hemorragia, radio_sinusite))
                 st.session_state.count += 1
                 st.rerun()
 if st.session_state.count == 5:
@@ -191,11 +192,11 @@ if st.session_state.count == 5:
     with coluna2:
         if st.button(enviar):
             for dado in st.session_state.termo_medico:
-                gravida, remedio, cardiaca, asma, pulmonar, epilepsia, enjoo, dd, coluna, diabetes, ouvido, hemorragia = dado
+                gravida, remedio, cardiaca, asma, pulmonar, epilepsia, enjoo, dd, coluna, diabetes, ouvido, hemorragia, sinusite = dado
             id_cliente = st.session_state.id_clientes
             id_termo_cliente = st.session_state.id_termo_clientes
             insert_termo_medico(id_cliente, id_termo_cliente, gravida, remedio, cardiaca, asma, pulmonar, epilepsia,
-                                enjoo, dd, coluna, diabetes, ouvido, hemorragia, input_cirurgia, nome_cirurgia,
+                                enjoo, dd, coluna, diabetes, ouvido, hemorragia, sinusite, input_cirurgia, nome_cirurgia,
                                 input_tempo_cirurgia, viagem, menor, bebida)
             st.session_state.count += 1
             st.rerun()
