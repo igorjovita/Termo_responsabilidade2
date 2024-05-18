@@ -34,11 +34,13 @@ if 'termo_medico' not in st.session_state:
     st.session_state.termo_medico = []
 
 st.subheader('Termo de Responsabilidade')
+escolha_idioma = 'Português'
 escolha_idioma = st.selectbox(" Seleccionar Idioma / Select Language", ["Português", "English", "Español"], index=None)
 
 if escolha_idioma is not None:
     if st.session_state.count == 0:
         st.session_state.count += 1
+
 
 titulo, data_mergulho, check_in, nome, cpf, data_nascimento, email, telefone, formato_data, endereco, botao, texto, titulo2, nome_emergencia, telefone_emergencia, botao2, titulo3, subtitulo, gravida, cardiaca, pulmonar, enjoo, coluna, ouvido, remedio, asma, epilepsia, dd, diabetes, hemorragia, sinusite, cirurgia, opcoes, opcoes1, qual_cirurgia, tempo_cirurgia, viajar, ciente1, ciente2, texto_final, pais, estado, enviar, importante, enviado, taxa, localizacao = controle.definir_idioma(
     escolha_idioma)
