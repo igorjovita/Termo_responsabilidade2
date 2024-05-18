@@ -90,10 +90,11 @@ if st.session_state.count == 2:
                 for item in st.session_state.dados_cliente:
                     data_mergulho, nome_cliente, data_nascimento, cpf, telefone, email = item
 
-                st.session_state.id_clientes = controle.verifica_cadastro(nome_cliente, data_mergulho, telefone, cpf,
-                                                                          email, data_nascimento, input_nome_emergencia,
-                                                                          input_telefone_emergencia, input_estado,
-                                                                          input_pais)
+                st.session_state.id_clientes, st.session_state.id_termo_clientes = controle.verifica_cadastro(
+                    nome_cliente, data_mergulho, telefone, cpf,
+                    email, data_nascimento, input_nome_emergencia,
+                    input_telefone_emergencia, input_estado,
+                    input_pais)
 
                 st.session_state.count += 1
                 st.rerun()
@@ -169,7 +170,7 @@ if st.session_state.count == 5:
 
             id_termo_cliente = st.session_state.id_termo_clientes
 
-            repo.insert_termo_medico(id_cliente, id_termo_cliente, gravida, remedio, cardiaca, asma, pulmonar,
+            repo.insert_termo_medico(id_cliente, 1, gravida, remedio, cardiaca, asma, pulmonar,
                                      epilepsia,
                                      enjoo, dd, coluna, diabetes, ouvido, hemorragia, sinusite, input_cirurgia,
                                      nome_cirurgia,

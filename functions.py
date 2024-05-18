@@ -72,10 +72,10 @@ class ControleGeral:
             self.repo.update_cliente(nome, telefone, email, estado, id_cliente)
             self.repo.update_reserva(nome, id_cliente, data)
 
-        self.repo.insert_termo_clientes(data, id_cliente, nome, telefone, cpf, data_nascimento, email,
+        id_termo = self.repo.insert_termo_clientes(data, id_cliente, nome, telefone, cpf, data_nascimento, email,
                                         nome_emergencia,
                                         telefone_emergencia, estado, pais)
-        return id_cliente
+        return id_cliente, id_termo
 
     @staticmethod
     def texto_portugues():
