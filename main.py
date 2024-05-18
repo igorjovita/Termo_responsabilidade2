@@ -162,7 +162,8 @@ if st.session_state.count == 5:
 
     with coluna2:
         if st.button(enviar):
-            gravida, remedio, cardiaca, asma, pulmonar, epilepsia, enjoo, dd, coluna, diabetes, ouvido, hemorragia, sinusite = st.session_state.termo_medico
+            for item in st.session_state.termo_medico
+                gravida, remedio, cardiaca, asma, pulmonar, epilepsia, enjoo, dd, coluna, diabetes, ouvido, hemorragia, sinusite = item
 
             id_cliente = st.session_state.id_clientes
 
