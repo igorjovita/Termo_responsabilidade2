@@ -86,7 +86,9 @@ if st.session_state.count == 2:
 
         with col2:
             if st.form_submit_button(botao2):
-                data_mergulho, nome_cliente, data_nascimento, cpf, telefone, email = st.session_state.dados_cliente
+
+                for item in st.session_state.dados_cliente:
+                    data_mergulho, nome_cliente, data_nascimento, cpf, telefone, email = item
 
                 st.session_state.id_clientes = controle.verifica_cadastro(nome_cliente, data_mergulho, telefone, cpf,
                                                                           email, data_nascimento, input_nome_emergencia,
