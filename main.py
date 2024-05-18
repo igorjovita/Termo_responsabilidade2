@@ -40,7 +40,6 @@ if escolha_idioma is not None:
     if st.session_state.count == 0:
         st.session_state.count += 1
 
-
     titulo, data_mergulho, check_in, nome, cpf, data_nascimento, email, telefone, formato_data, endereco, botao, texto, titulo2, nome_emergencia, telefone_emergencia, botao2, titulo3, subtitulo, gravida, cardiaca, pulmonar, enjoo, coluna, ouvido, remedio, asma, epilepsia, dd, diabetes, hemorragia, sinusite, cirurgia, opcoes, opcoes1, qual_cirurgia, tempo_cirurgia, viajar, ciente1, ciente2, texto_final, pais, estado, enviar, importante, enviado, taxa, localizacao = controle.definir_idioma(
         escolha_idioma)
 
@@ -63,10 +62,11 @@ if st.session_state.count == 1:
             if st.form_submit_button(botao2):
                 if input_nome == '' or input_data_nascimento is None or input_cpf == '' or input_telefone == '' or input_email == '':
                     st.error('Preencha todos os Campos')
-                st.session_state.dados_cliente.append(
-                    (input_data_mergulho, input_nome, input_data_nascimento, input_cpf, input_telefone, input_email))
-                st.session_state.count += 1
-                st.rerun()
+                else:
+                    st.session_state.dados_cliente.append(
+                        (input_data_mergulho, input_nome, input_data_nascimento, input_cpf, input_telefone, input_email))
+                    st.session_state.count += 1
+                    st.rerun()
 if st.session_state.count == 2:
 
     with st.form('Pagina2'):
