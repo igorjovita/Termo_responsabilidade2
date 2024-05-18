@@ -1,25 +1,84 @@
-import os
+from database import DataBaseMysql
 
-import mysql.connector
-import streamlit as st
-
-mydb = mysql.connector.connect(
-    host=os.getenv("DB_HOST"),
-    user=os.getenv("DB_USERNAME"),
-    passwd=os.getenv("DB_PASSWORD"),
-    db=os.getenv("DB_NAME"),
-    autocommit=True,
-    ssl_verify_identity=False,
-    ssl_ca=r"C:\users\acqua\downloads\cacert-2023-08-22.pem",
-    charset="utf8")
-
-cursor = mydb.cursor(buffered=True)
-
-chars = "'),([]"
+db = DataBaseMysql()
 
 
-def linguagem(linguagem):
-    if linguagem == "Português":
+class ControleGeral:
+
+    def __init__(self, repo):
+        self.repo = repo
+
+    @staticmethod
+    def lista_locais():
+        paises = [
+            "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina",
+            "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados",
+            "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana",
+            "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cabo Verde", "Cambodia", "Cameroon",
+            "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros",
+            "Congo (Congo-Brazzaville)", "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czechia (Czech Republic)",
+            "Democratic Republic of the Congo", "Denmark", "Djibouti", "Dominica", "Dominican Republic",
+            "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini (fmr. Swaziland)",
+            "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece",
+            "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Holy See", "Honduras",
+            "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Ivory Coast",
+            "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan", "Laos", "Latvia",
+            "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Madagascar",
+            "Malawi",
+            "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico",
+            "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique",
+            "Myanmar (formerly Burma)",
+            "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea",
+            "North Macedonia (formerly Macedonia)", "Norway", "Oman", "Pakistan", "Palau", "Palestine State", "Panama",
+            "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia",
+            "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino",
+            "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore",
+            "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain",
+            "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria", "Tajikistan", "Tanzania", "Thailand",
+            "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu",
+            "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay",
+            "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
+        ]
+
+        estados = [
+            'Acre', 'Alagoas', 'Amapá', 'Amazonas', 'Bahia', 'Ceará', 'Espírito Santo',
+            'Goiás', 'Maranhão', 'Mato Grosso', 'Mato Grosso do Sul', 'Minas Gerais',
+            'Pará', 'Paraíba', 'Paraná', 'Pernambuco', 'Piauí', 'Rio de Janeiro',
+            'Rio Grande do Norte', 'Rio Grande do Sul', 'Rondônia', 'Roraima',
+            'Santa Catarina', 'São Paulo', 'Sergipe', 'Tocantins'
+        ]
+
+        return paises, estados
+
+    def definir_idioma(self, idioma):
+        if idioma == 'Português':
+            return self.texto_portugues()
+
+        elif idioma == 'Español':
+            return self.texto_espanhol()
+
+        elif idioma == 'English':
+            return self.texto_ingles()
+
+    def verifica_cadastro(self, nome, data, telefone, cpf, email, data_nascimento, nome_emergencia, telefone_emergencia,
+                          estado, pais):
+        # Verifica se tem algum cliente com o mesmo cpf e mesma data da reserva cadastrado
+        select_id_cliente = self.repo.select_id_cliente(cpf, data)
+        id_cliente = ''
+
+        if select_id_cliente:
+            id_cliente = select_id_cliente[0][0]
+
+            self.repo.update_cliente(nome, telefone, email, estado, id_cliente)
+            self.repo.update_reserva(nome, id_cliente, data)
+
+        self.repo.insert_termo_clientes(self, data, id_cliente, nome, telefone, cpf, data_nascimento, email,
+                                        nome_emergencia,
+                                        telefone_emergencia, estado, pais)
+        return id_cliente
+
+    @staticmethod
+    def texto_portugues():
         titulo = "Formulário de Inscrição"
         data_mergulho = "Data do Mergulho"
         check_in = "Manhã - Check-in 07:30, Saída 08:30"
@@ -46,7 +105,7 @@ def linguagem(linguagem):
         Também fui informado e estou ciente que a prática de mergulho recreativo é atividade física extenuante e que estarei me excedendo durante o mergulho e, caso venha a sofrer uma lesão resultante de ataque cardíaco, pânico, hiper ventilação, etc, assumo expressamente o risco e responsabilidade por tais lesões e isentando de responsabilidades as “Partes Desobrigadas”.
         
         Declaro que estou apto física e mentalmente a participar das atividades de mergulho, não tendo qualquer moléstia ou problema de saúde que possam prejudicar ou causar qualquer risco antes, durante ou após a prática de mergulho.
-    """)
+        """)
         titulo2 = 'Certificado de Entendimento e Assunção Expressa de Risco'
         nome_emergencia = 'Nome de um contato de emergência'
         telefone_emergencia = 'Telefone do contato de emergência'
@@ -85,16 +144,17 @@ def linguagem(linguagem):
         importante = 'Questões Importantes'
         enviado = '✅ Formulario Enviado com Sucesso'
         taxa = 'Por favor não esquecer de levar R$ 10,00 em dinheiro para taxa de embarque'
-        localizaçao = 'O check-in começa as 07:30 e nossa embarcação sairá as 08:30'
+        localizacao = 'O check-in começa as 07:30 e nossa embarcação sairá as 08:30'
 
+        return titulo, data_mergulho, check_in, nome, cpf, data_nascimento, email, telefone, formato_data, endereco, botao, texto, titulo2, nome_emergencia, telefone_emergencia, botao2, titulo3, subtitulo, gravida, cardiaca, pulmonar, enjoo, coluna, ouvido, remedio, asma, epilepsia, dd, diabetes, hemorragia, sinusite, cirurgia, opcoes, opcoes1, qual_cirurgia, tempo_cirurgia, viajar, ciente1, ciente2, texto_final, pais, estado, enviar, importante, enviado, taxa, localizacao
 
-
-    elif linguagem == 'Español':
+    @staticmethod
+    def texto_espanhol():
         titulo = "Formulario de Registro"
         data_mergulho = "Fecha de Buceo"
         check_in = "Manhã - Registro 07:30, Salida 08:30"
         nome = "Nombre"
-        cpf = "DNI"
+        cpf = "Pasaporte"
         data_nascimento = "Fecha de Nacimiento"
         email = "Correo Electrónico"
         telefone = "Teléfono"
@@ -154,16 +214,17 @@ def linguagem(linguagem):
         importante = 'Preguntas Importantes'
         enviado = '✅ Formulario Enviado con Éxito'
         taxa = 'Por favor, recuerde traer R$10.00 en efectivo para la tarifa de embarque'
-        localizaçao = 'El check-in comienza a las 07:30 y nuestra embarcación partirá a las 08:30'
+        localizacao = 'El check-in comienza a las 07:30 y nuestra embarcación partirá a las 08:30'
 
+        return titulo, data_mergulho, check_in, nome, cpf, data_nascimento, email, telefone, formato_data, endereco, botao, texto, titulo2, nome_emergencia, telefone_emergencia, botao2, titulo3, subtitulo, gravida, cardiaca, pulmonar, enjoo, coluna, ouvido, remedio, asma, epilepsia, dd, diabetes, hemorragia, sinusite, cirurgia, opcoes, opcoes1, qual_cirurgia, tempo_cirurgia, viajar, ciente1, ciente2, texto_final, pais, estado, enviar, importante, enviado, taxa, localizacao
 
-
-    elif linguagem == 'English':
+    @staticmethod
+    def texto_ingles():
         titulo = "Registration Form"
         data_mergulho = "Dive Date"
         check_in = "Morning - Check-in 07:30, Departure 08:30"
         nome = "Name"
-        cpf = "SSN"
+        cpf = "Passport"
         data_nascimento = "Date of Birth"
         email = "Email"
         telefone = "Phone"
@@ -223,136 +284,6 @@ def linguagem(linguagem):
         importante = 'Important Questions'
         enviado = '✅ Form Submitted Successfully'
         taxa = 'Please remember to bring R$10.00 in cash for the boarding fee'
-        localizaçao = 'Check-in starts at 07:30 and our vessel will depart at 08:30'
+        localizacao = 'Check-in starts at 07:30 and our vessel will depart at 08:30'
 
-    return titulo, data_mergulho, check_in, nome, cpf, data_nascimento, email, telefone, formato_data, endereco, botao, texto, titulo2, nome_emergencia, telefone_emergencia, botao2, titulo3, subtitulo, gravida, cardiaca, pulmonar, enjoo, coluna, ouvido, remedio, asma, epilepsia, dd, diabetes, hemorragia, sinusite, cirurgia, opcoes, opcoes1, qual_cirurgia, tempo_cirurgia, viajar, ciente1, ciente2, texto_final, pais, estado, enviar, importante, enviado, taxa, localizaçao
-
-
-# def create_termo_clientes():
-#     mydb.connect()
-#     cursor.execute("""
-#             create table termo_clientes(
-#                 id int not null auto_increment,
-#                 data_reserva date,
-#                 id_cliente int,
-#                 nome varchar(40),
-#                 telefone varchar(20),
-#                 cpf varchar(20),
-#                 data_nascimento date,
-#                 email varchar(20),
-#                 nome_emergencia varchar(20),
-#                 telefone_emergencia varchar(20),
-#                 roupa varchar(20),
-#                 cidade varchar(20),
-#                 estado varchar(20),
-#                 pais varchar(20),
-#                 primary key (id),
-#                 foreign key (id_cliente) references cliente(id));
-#             """)
-#     mydb.close()
-
-
-# def create_termo_medico():
-#     mydb.connect()
-#     cursor.execute("""
-#         create table termo_medico (
-#             id int not null auto_increment,
-#             id_cliente int,
-#             id_termo_cliente int,
-#             gravida varchar(3),
-#             remedio varchar(3),
-#             doenca_cardioaca varchar(3),
-#             asma varchar(3),
-#             doenca_pulmonar varchar(3),
-#             epilepsia varchar(3),
-#             enjoo varchar(3),
-#             dd varchar(3),
-#             coluna varchar(3),
-#             diabetes varchar(3),
-#             ouvido varchar(3),
-#             hemorragia varchar(3),
-#             primary key (id),
-#             foreign key (id_cliente) references cliente(id),
-#             foreign key (id_termo_cliente) references termo_clientes(id));
-#     """)
-#     mydb.close()
-
-
-def insert_termo_clientes(data_reserva, id_cliente, nome, telefone, cpf, data_nascimento, email, nome_emergencia,
-                          telefone_emergencia, estado, pais):
-    mydb.connect()
-
-    st.write(f'id_cliente termo clientes - {id_cliente}')
-
-    cursor.execute(
-        "INSERT INTO termo_clientes (data_reserva, id_cliente, nome, telefone, cpf, data_nascimento, email, nome_emergencia, telefone_emergencia, estado, pais) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ",
-        (data_reserva, id_cliente, nome, telefone, cpf, data_nascimento, email, nome_emergencia, telefone_emergencia,
-         estado, pais))
-    id_termo_clientes = cursor.lastrowid
-    mydb.close()
-
-    return id_termo_clientes
-
-
-def cadastra_cliente(nome, data, telefone, cpf, estado):
-    mydb.connect()
-    nome_cliente = str(nome).split()
-    st.write(nome)
-    st.write(nome_cliente)
-    cursor.execute(
-        f"SELECT id_cliente FROM reserva  WHERE nome_cliente LIKE '{nome_cliente[0]}%' and data = '{data}'")
-    dados = cursor.fetchall()
-    lista = []
-
-    if len(dados) >= 1:
-        for i, dado in enumerate(dados):
-            cursor.execute(f"SELECT * FROM termo_clientes where id_cliente = %s and data_reserva = %s", (dado[i], data))
-            resultado = cursor.fetchall()
-            if resultado:
-                lista.append(dado)
-        if len(lista) >= 1:
-            dados = ''
-    st.write(f'1 - {dados}')
-    id_cliente = None
-
-    if len(dados) != 0:
-        if len(dados) > 1:
-            nome_cliente = f'{nome_cliente[0]} {nome_cliente[1]}'
-            st.write(nome_cliente)
-            cursor.execute(
-                f"SELECT c.id FROM reserva AS r INNER JOIN cliente AS c ON r.id_cliente = c.id WHERE c.nome LIKE '{nome_cliente}%' and r.data = '{data}'")
-            dados = cursor.fetchall()
-            st.write(f'IF 2 - {dados}')
-            if len(dados) >= 1:
-                id_cliente = ''
-
-            else:
-                id_cliente = str(dados).translate(str.maketrans('', '', chars))
-        else:
-            id_cliente = str(dados).translate(str.maketrans('', '', chars))
-
-        st.write(id_cliente)
-        cursor.execute(
-            "UPDATE cliente SET nome = %s, telefone = %s, cpf = %s, estado = %s WHERE id = %s",
-            (nome, telefone, cpf, estado, id_cliente)
-        )
-
-        cursor.execute("SELECT tipo from reserva where id_cliente = %s", (id_cliente,))
-        tipo = cursor.fetchone()
-        if tipo:
-            if tipo[0] != 'OWD' and tipo[0] != 'ADV':
-                cursor.execute(
-                    f"UPDATE reserva set nome_cliente = '{nome}' WHERE id_cliente = {id_cliente} and data = '{data}'")
-
-    return id_cliente
-
-
-def insert_termo_medico(id_cliente, id_termo_cliente, gravida, remedio, cardiaca, asma, pulmonar, epilepsia, enjoo, dd,
-                        coluna, diabetes, ouvido, hemorragia, sinusite, input_cirurgia, nome_cirurgia, input_tempo_cirurgia,
-                        viagem, menor, bebida):
-    mydb.connect()
-
-    cursor.execute(
-        "INSERT INTO termo_medico (id_cliente, id_termo_cliente, gravida, remedio, doenca_cardiaca, asma, doenca_pulmonar, epilepsia, enjoo, dd, coluna, diabetes, ouvido, hemorragia, sinusite, cirurgia, nome_cirurgia, tempo_cirurgia, viagem,  menor, bebida) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-        (id_cliente, id_termo_cliente, gravida, remedio, cardiaca, asma, pulmonar, epilepsia, enjoo, dd, coluna,
-         diabetes, ouvido, hemorragia, sinusite, input_cirurgia, nome_cirurgia, input_tempo_cirurgia, viagem, menor, bebida))
+        return titulo, data_mergulho, check_in, nome, cpf, data_nascimento, email, telefone, formato_data, endereco, botao, texto, titulo2, nome_emergencia, telefone_emergencia, botao2, titulo3, subtitulo, gravida, cardiaca, pulmonar, enjoo, coluna, ouvido, remedio, asma, epilepsia, dd, diabetes, hemorragia, sinusite, cirurgia, opcoes, opcoes1, qual_cirurgia, tempo_cirurgia, viajar, ciente1, ciente2, texto_final, pais, estado, enviar, importante, enviado, taxa, localizacao

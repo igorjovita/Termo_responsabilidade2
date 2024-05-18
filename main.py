@@ -1,5 +1,7 @@
 import streamlit as st
-from functions import linguagem, cadastra_cliente, insert_termo_clientes, insert_termo_medico
+from functions import ControleGeral
+from database import DataBaseMysql
+from repository import Repository
 
 st.write('''<style>
 
@@ -10,41 +12,11 @@ st.write('''<style>
 }
 </style>''', unsafe_allow_html=True)
 
-paises = [
-    "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina",
-    "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados",
-    "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana",
-    "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cabo Verde", "Cambodia", "Cameroon",
-    "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros",
-    "Congo (Congo-Brazzaville)", "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czechia (Czech Republic)",
-    "Democratic Republic of the Congo", "Denmark", "Djibouti", "Dominica", "Dominican Republic",
-    "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini (fmr. Swaziland)",
-    "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece",
-    "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Holy See", "Honduras",
-    "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Ivory Coast",
-    "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan", "Laos", "Latvia",
-    "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Madagascar", "Malawi",
-    "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico",
-    "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar (formerly Burma)",
-    "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea",
-    "North Macedonia (formerly Macedonia)", "Norway", "Oman", "Pakistan", "Palau", "Palestine State", "Panama",
-    "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia",
-    "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino",
-    "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore",
-    "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain",
-    "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria", "Tajikistan", "Tanzania", "Thailand",
-    "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu",
-    "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay",
-    "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
-]
+db = DataBaseMysql()
+repo = Repository(db)
+controle = ControleGeral(repo)
 
-estados = [
-    'Acre', 'Alagoas', 'Amapá', 'Amazonas', 'Bahia', 'Ceará', 'Espírito Santo',
-    'Goiás', 'Maranhão', 'Mato Grosso', 'Mato Grosso do Sul', 'Minas Gerais',
-    'Pará', 'Paraíba', 'Paraná', 'Pernambuco', 'Piauí', 'Rio de Janeiro',
-    'Rio Grande do Norte', 'Rio Grande do Sul', 'Rondônia', 'Roraima',
-    'Santa Catarina', 'São Paulo', 'Sergipe', 'Tocantins'
-]
+paises, estados = controle.lista_locais()
 
 if 'count' not in st.session_state:
     st.session_state.count = 0
@@ -68,8 +40,8 @@ if escolha_idioma is not None:
     if st.session_state.count == 0:
         st.session_state.count += 1
 
-    titulo, data_mergulho, check_in, nome, cpf, data_nascimento, email, telefone, formato_data, endereco, botao, texto, titulo2, nome_emergencia, telefone_emergencia, botao2, titulo3, subtitulo, gravida, cardiaca, pulmonar, enjoo, coluna, ouvido, remedio, asma, epilepsia, dd, diabetes, hemorragia, sinusite, cirurgia, opcoes, opcoes1, qual_cirurgia, tempo_cirurgia, viajar, ciente1, ciente2, texto_final, pais, estado, enviar, importante, enviado, taxa, localizaçao = linguagem(
-        escolha_idioma)
+titulo, data_mergulho, check_in, nome, cpf, data_nascimento, email, telefone, formato_data, endereco, botao, texto, titulo2, nome_emergencia, telefone_emergencia, botao2, titulo3, subtitulo, gravida, cardiaca, pulmonar, enjoo, coluna, ouvido, remedio, asma, epilepsia, dd, diabetes, hemorragia, sinusite, cirurgia, opcoes, opcoes1, qual_cirurgia, tempo_cirurgia, viajar, ciente1, ciente2, texto_final, pais, estado, enviar, importante, enviado, taxa, localizacao = controle.definir_idioma(
+    escolha_idioma)
 
 # Exibindo os inputs do formulário
 
@@ -112,19 +84,13 @@ if st.session_state.count == 2:
 
         with col2:
             if st.form_submit_button(botao2):
+                data_mergulho, nome_cliente, data_nascimento, cpf, telefone, email = st.session_state.dados_cliente
 
-                for cliente in st.session_state.dados_cliente:
-                    input_data_mergulho, input_nome, input_data_nascimento, input_cpf, input_telefone, input_email = cliente
-                st.session_state.id_clientes = cadastra_cliente(input_nome, input_data_mergulho, input_telefone,
-                                                                input_cpf, input_estado)
-                st.write(f'Sessao id clientes - {st.session_state.id_clientes}')
-                id_cliente = st.session_state.id_clientes
-                st.session_state.id_termo_clientes = insert_termo_clientes(input_data_mergulho, id_cliente, input_nome,
-                                                                           input_telefone, input_cpf,
-                                                                           input_data_nascimento, input_email,
-                                                                           input_nome_emergencia,
-                                                                           input_telefone_emergencia, input_estado,
-                                                                           input_pais)
+                st.session_state.id_clientes = controle.verifica_cadastro(nome_cliente, data_mergulho, telefone, cpf,
+                                                                          email, data_nascimento, input_nome_emergencia,
+                                                                          input_telefone_emergencia, input_estado,
+                                                                          input_pais)
+
                 st.session_state.count += 1
                 st.rerun()
 
@@ -168,7 +134,8 @@ if st.session_state.count == 4:
             if st.form_submit_button(botao2):
                 st.session_state.termo_medico.append((radio_gravida, radio_remedio, radio_cardiaca, radio_asma,
                                                       radio_pulmonar, radio_epilepsia, radio_enjoo, radio_dd,
-                                                      radio_coluna, radio_diabetes, radio_ouvido, radio_hemorragia, radio_sinusite))
+                                                      radio_coluna, radio_diabetes, radio_ouvido, radio_hemorragia,
+                                                      radio_sinusite))
                 st.session_state.count += 1
                 st.rerun()
 if st.session_state.count == 5:
@@ -191,20 +158,24 @@ if st.session_state.count == 5:
 
     with coluna2:
         if st.button(enviar):
-            for dado in st.session_state.termo_medico:
-                gravida, remedio, cardiaca, asma, pulmonar, epilepsia, enjoo, dd, coluna, diabetes, ouvido, hemorragia, sinusite = dado
+            gravida, remedio, cardiaca, asma, pulmonar, epilepsia, enjoo, dd, coluna, diabetes, ouvido, hemorragia, sinusite = st.session_state.termo_medico
+
             id_cliente = st.session_state.id_clientes
+
             id_termo_cliente = st.session_state.id_termo_clientes
-            insert_termo_medico(id_cliente, id_termo_cliente, gravida, remedio, cardiaca, asma, pulmonar, epilepsia,
-                                enjoo, dd, coluna, diabetes, ouvido, hemorragia, sinusite, input_cirurgia, nome_cirurgia,
-                                input_tempo_cirurgia, viagem, menor, bebida)
+
+            repo.insert_termo_medico(id_cliente, id_termo_cliente, gravida, remedio, cardiaca, asma, pulmonar,
+                                     epilepsia,
+                                     enjoo, dd, coluna, diabetes, ouvido, hemorragia, sinusite, input_cirurgia,
+                                     nome_cirurgia,
+                                     input_tempo_cirurgia, viagem, menor, bebida)
             st.session_state.count += 1
             st.rerun()
 
 if st.session_state.count == 6:
     st.header(enviado)
     st.write(taxa)
-    st.write(localizaçao)
+    st.write(localizacao)
     st.write('📍 Praça da Bandeira, 23 - Praia dos Anjos')
     st.image('imagem1.jpg', caption='Nossa loja se encontra na Praça da Bandeira, 23 - Praia dos Anjos',
              use_column_width=True)
